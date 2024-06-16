@@ -1,11 +1,8 @@
-namespace DataCollector.Reddit.Models
+using System.Text.Json.Serialization;
+
+public class Listing
 {
-    public class Listing : Thing
-    {
-        public string? Before { get; set; }
 
-        public string? After { get; set; }
-
-        public required List<Thing> Children { get; set; }
-    }
+    [JsonPropertyName("children")]
+    public required List<Thing> Children { get; set; }
 }

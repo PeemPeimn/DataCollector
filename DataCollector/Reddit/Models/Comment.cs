@@ -1,12 +1,14 @@
 // Kind: "t1"
-public class Comment : Thing
+using System.Text.Json.Serialization;
+
+public class Comment
 {
-    public required string Id { get; set; }
 
-    public required string ParentId { get; set; }
-
+    [JsonPropertyName("body")]
     public required string Body { get; set; }
 
-    public required Thing replies { get; set; }
+    [JsonConverter(typeof(NullableConverter<Thing>))]
+    [JsonPropertyName("replies")]
+    public Thing? Replies { get; set; }
 
 }
