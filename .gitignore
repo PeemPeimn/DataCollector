@@ -361,3 +361,12 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Environment files
+*.env
+
+# Database's data folder
+Database/data
+
+# Database's volumes folder
+Database/volumes
