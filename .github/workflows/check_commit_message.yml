@@ -11,4 +11,4 @@ jobs:
       - uses: actions/setup-python@v5 
         with:
           python-version: '3.10' 
-      - run: python .github/workflows/check-commit-message.py ${{ github.event.head_commit.message }}
+      - run: python check-commit-message.py ${{ github.event.head_commit.message }}
