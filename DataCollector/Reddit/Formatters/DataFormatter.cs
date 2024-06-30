@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace DataCollector.Reddit.DataFormatter
+namespace Reddit.Formatters
 {
     public static class DataFormatter
     {
@@ -11,17 +11,17 @@ namespace DataCollector.Reddit.DataFormatter
             switch (thing.Kind)
             {
                 case "Listing":
-                    thing.Data = JsonSerializer.Deserialize<Listing>(jsonData)!;
+                    thing.Data = jsonData.Deserialize<Listing>()!;
                     Format((Listing)thing.Data, dataList, ref data, role);
                     break;
 
                 case "t3":
-                    thing.Data = JsonSerializer.Deserialize<Post>(jsonData)!;
+                    thing.Data = jsonData.Deserialize<Post>()!;
                     Format((Post)thing.Data, dataList, ref data, role);
                     break;
 
                 case "t1":
-                    thing.Data = JsonSerializer.Deserialize<Comment>(jsonData)!;
+                    thing.Data = jsonData.Deserialize<Comment>()!;
                     Format((Comment)thing.Data, dataList, ref data, role);
                     break;
             }
@@ -65,8 +65,8 @@ namespace DataCollector.Reddit.DataFormatter
         {
             dataList = new List<SFTTrainerData>();
             var data = new SFTTrainerData();
-            DataFormatter.Format(listOfThings[0], dataList, ref data, SFTTrainerData.Roles.User);
-            DataFormatter.Format(listOfThings[1], dataList, ref data, SFTTrainerData.Roles.Assistant);
+            Format(listOfThings[0], dataList, ref data, SFTTrainerData.Roles.User);
+            Format(listOfThings[1], dataList, ref data, SFTTrainerData.Roles.Assistant);
         }
     }
 }

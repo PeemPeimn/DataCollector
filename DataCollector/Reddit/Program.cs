@@ -1,5 +1,5 @@
-﻿using DataCollector.Reddit.DataFormatter;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
+using Reddit.Formatters;
 using System.Text.Json;
 
 namespace Reddit;
