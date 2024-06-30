@@ -53,9 +53,9 @@ namespace DataCollector.Reddit.DataFormatter
 
         public static void Format(Post post, List<SFTTrainerData> dataList, ref SFTTrainerData data, string role)
         {
-            if (data.Id is null)
+            if (data.PostId is null)
             {
-                data.Id = post.Id;
+                data.PostId = post.Id;
             }
 
             data.Messages.Add(new SFTTrainerData.Message { Role = role, Content = $"{post.Title} {post.SelfText}" });

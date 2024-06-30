@@ -1,4 +1,6 @@
-﻿public struct SFTTrainerData
+﻿using System.Text.Json.Serialization;
+
+public struct SFTTrainerData
 {
     public SFTTrainerData()
     {
@@ -7,7 +9,7 @@
 
     public SFTTrainerData(string id, List<Message> messages)
     {
-        Id = id;
+        PostId = id;
         Messages = messages;
     }
 
@@ -29,18 +31,15 @@
 
     public record Message
     {
+        [JsonPropertyName("role")]
         public required string Role { get; set; }
 
+        [JsonPropertyName("content")]
         public required string Content { get; set; }
 
-        //public Message(string role, string content)
-        //{
-        //    Role = role;
-        //    Content = content;
-        //}
     }
 
-    public string? Id { get; set; }
+    public string? PostId { get; set; }
 
     public List<Message> Messages { get; set; } = new List<Message>();
 }

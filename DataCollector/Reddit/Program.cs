@@ -1,5 +1,5 @@
 ﻿using DataCollector.Reddit.DataFormatter;
-using System.Diagnostics;
+using Microsoft.Extensions.Configuration;
 using System.Text.Json;
 
 namespace Reddit;
@@ -8,15 +8,25 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        HttpClient client = new HttpClient();
-        client.DefaultRequestHeaders.Add("User-Agent", "intamoon.peem");
-        HttpResponseMessage response = await client.GetAsync("https://www.reddit.com/r/socialskills/comments/1dgvkf9/a_60m_at_the_gym_keeps_talking_to_me_18f_after_i.json");
+        IConfigurationRoot configs = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+        RedditDbContext dbContext = new RedditDbContext(configs["PostgresConnectionString"]);
+        RedditRepository repository = new RedditRepository(dbContext);
 
-        List<Thing> listOfThings = JsonSerializer.Deserialize<List<Thing>>(response.Content.ReadAsStream())!;
+        Console.Write("Enter the Reddit post's URL: ");
+        string URL = Console.ReadLine()!;
+        URL += ".json";
+
+        HttpClient client = new HttpClient();
+        client.DefaultRequestHeaders.Add("User-Agent", configs["UserAgent"]);
+        HttpResponseMessage response = await client.GetAsync(URL);
+        string postJson = await response.Content.ReadAsStringAsync();
+
+        List<Thing> listOfThings = JsonSerializer.Deserialize<List<Thing>>(postJson)!;
 
         List<SFTTrainerData> dataList;
         DataFormatter.Format(listOfThings, out dataList);
-        Debug.WriteLine("Finished");
+
+        repository.InsertData(postJson, dataList);
     }
 
 }
