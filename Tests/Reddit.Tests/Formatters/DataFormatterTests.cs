@@ -1,15 +1,11 @@
 using Reddit.Formatters;
 using System.Text.Json;
-using Xunit;
 
 namespace Reddit.Tests.DataFormatterTests
 {
     public class FormatPostTest
     {
-        [Fact]
-        public void DataPostIdIsNull()
-        {
-            string json = """
+        const string json = """
             {
                 "kind": "t3",
                 "data": {
@@ -20,6 +16,10 @@ namespace Reddit.Tests.DataFormatterTests
             }
             """;
 
+        [Theory]
+        [InlineData(json)]
+        public void DataPostIdIsNull(string json)
+        {
             Thing thing = JsonSerializer.Deserialize<Thing>(json)!;
 
             List<SFTTrainerData> dataList = new List<SFTTrainerData>();
@@ -42,20 +42,10 @@ namespace Reddit.Tests.DataFormatterTests
 
         }
 
-        [Fact]
-        public void DataPostIdIsNotNull()
+        [Theory]
+        [InlineData(json)]
+        public void DataPostIdIsNotNull(string json)
         {
-            string json = """
-            {
-                "kind": "t3",
-                "data": {
-                    "id": "test_id",
-                    "title": "You'll never guess what this mosquito did today.",
-                    "selftext": "That's crazy. That's messed up."
-                }
-            }
-            """;
-
             Thing thing = JsonSerializer.Deserialize<Thing>(json)!;
 
             List<SFTTrainerData> dataList = new List<SFTTrainerData>();
