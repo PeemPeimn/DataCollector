@@ -220,4 +220,36 @@ namespace Reddit.Tests.DataFormatterTests
         }
 
     }
+
+    public class EntryPointListOfThingsFormatterTest
+    {
+
+        const string json = """"
+            [
+                {
+                    "kind": "test_1",
+                    "data": ""
+                },
+                {
+                    "kind": "test_2",
+                    "data": ""
+                }
+            ]
+            """";
+
+        [Fact]
+        public void TestVariableCreation()
+        {
+            List<SFTTrainerData> dataList;
+
+            List<Thing> listOfThings = JsonSerializer.Deserialize<List<Thing>>(json)!;
+
+            List<SFTTrainerData> expectedDataList = new List<SFTTrainerData>();
+
+            DataFormatter.Format(listOfThings, out dataList);
+
+            Assert.Equivalent(expectedDataList, dataList);
+
+        }
+    }
 }
