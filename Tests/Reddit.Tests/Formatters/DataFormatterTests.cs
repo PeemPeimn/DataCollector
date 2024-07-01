@@ -161,4 +161,63 @@ namespace Reddit.Tests.DataFormatterTests
 
         }
     }
+
+    public class ListingFormatTest
+    {
+        const string json = """
+            {
+                "kind": "Listing",
+                "data": {
+                    "children": [
+                        {
+                            "kind": "t1",
+                            "data": {
+                                "body": "Harrison Temple",
+                                "replies": ""
+                            }
+                        },
+                        {
+                            "kind": "t3",
+                            "data": {
+                                "id": "test_id",
+                                "title": "You'll never guess what this mosquito did today.",
+                                "selftext": "That's crazy. That's messed up."
+                            }
+                        },
+                        {
+                            "kind": "Listing",
+                            "data": {
+                                "children": []
+                            }
+                        }
+                    ]
+                }
+            }
+            """;
+
+        [Theory]
+        [InlineData(json)]
+        public void CheckReferenceEqualityAndEachTypeOfChildren(string json)
+        {
+            Thing thing = JsonSerializer.Deserialize<Thing>(json)!;
+
+            List<SFTTrainerData> dataList = new List<SFTTrainerData>();
+            SFTTrainerData data = new SFTTrainerData();
+
+            SFTTrainerData expectedData = new SFTTrainerData();
+            string role = SFTTrainerData.Roles.User;
+
+            SFTTrainerData refData = data;
+
+            DataFormatter.Format(thing, dataList, ref data, role);
+
+            Listing list = (Listing)thing.Data;
+
+            Assert.False(refData.Equals(data));
+            Assert.Equal(typeof(Comment), list.Children[0].Data.GetType());
+            Assert.Equal(typeof(Post), list.Children[1].Data.GetType());
+            Assert.Equal(typeof(Listing), list.Children[2].Data.GetType());
+        }
+
+    }
 }
