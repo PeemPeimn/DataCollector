@@ -39,6 +39,7 @@ namespace Reddit.Tests.DataFormatterTests
             };
 
             Assert.Equivalent(expectedData, data, true);
+            Assert.Equal(typeof(Post), thing.Data.GetType());
 
         }
 
@@ -65,8 +66,99 @@ namespace Reddit.Tests.DataFormatterTests
             };
 
             Assert.Equivalent(expectedData, data, true);
+            Assert.Equal(typeof(Post), thing.Data.GetType());
 
         }
     }
 
+    public class FormatCommentTest
+    {
+        const string emptyReplies = """
+            {
+                "kind": "t1",
+                "data": {
+                    "body": "Harrison Temple",
+                    "replies": ""
+                }
+            }
+            """;
+
+        [Theory]
+        [InlineData(emptyReplies)]
+        public void RepliesIsAnEmptyString(string json)
+        {
+            Thing thing = JsonSerializer.Deserialize<Thing>(json)!;
+
+            List<SFTTrainerData> dataList = new List<SFTTrainerData>();
+            SFTTrainerData data = new SFTTrainerData();
+            string role = SFTTrainerData.Roles.User;
+
+            SFTTrainerData expectedData = new SFTTrainerData
+            {
+                PostId = null,
+                Messages = new List<SFTTrainerData.Message>
+                {
+                    new SFTTrainerData.Message {
+                        Role = SFTTrainerData.Roles.User,
+                        Content = "Harrison Temple" }
+                }
+            };
+
+            List<SFTTrainerData> expectedDataList = new List<SFTTrainerData>();
+            expectedDataList.Add(expectedData);
+
+            DataFormatter.Format(thing, dataList, ref data, role);
+
+            Assert.Equivalent(expectedData, data, true);
+            Assert.Equivalent(expectedDataList, dataList);
+            Assert.Equal(typeof(Comment), thing.Data.GetType());
+            Assert.Null(((Comment)thing.Data).Replies);
+
+        }
+
+        const string withReplies = """
+            {
+                "kind": "t1",
+                "data": {
+                    "body": "Harrison Temple",
+                    "replies": {
+                        "kind": "Truth",
+                        "data": "He's not real."
+                    }
+                }
+            }
+            """;
+
+        [Theory]
+        [InlineData(withReplies, SFTTrainerData.Roles.User)]
+        [InlineData(withReplies, SFTTrainerData.Roles.Assistant)]
+        public void DataPostIdIsNotNull(string json, string role)
+        {
+            Thing thing = JsonSerializer.Deserialize<Thing>(json)!;
+
+            List<SFTTrainerData> dataList = new List<SFTTrainerData>();
+            SFTTrainerData data = new SFTTrainerData();
+
+            SFTTrainerData expectedData = new SFTTrainerData
+            {
+                PostId = null,
+                Messages = new List<SFTTrainerData.Message>
+                {
+                    new SFTTrainerData.Message {
+                        Role = role,
+                        Content = "Harrison Temple" }
+                }
+            };
+
+            List<SFTTrainerData> expectedDataList = new List<SFTTrainerData>();
+
+            DataFormatter.Format(thing, dataList, ref data, role);
+
+            Assert.Equivalent(expectedData, data, true);
+            Assert.Equivalent(expectedDataList, dataList);
+            Assert.Equal(typeof(Comment), thing.Data.GetType());
+            Assert.NotNull(((Comment)thing.Data).Replies);
+
+        }
+    }
 }

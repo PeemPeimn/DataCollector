@@ -7,12 +7,6 @@ public struct SFTTrainerData
         Messages = new List<Message>();
     }
 
-    public SFTTrainerData(string id, List<Message> messages)
-    {
-        PostId = id;
-        Messages = messages;
-    }
-
     public static class Roles
     {
         public const string User = "user";
