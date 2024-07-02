@@ -23,7 +23,7 @@ public struct SFTTrainerData
         }
     }
 
-    public record Message
+    public record struct Message
     {
         [JsonPropertyName("role")]
         public required string Role { get; set; }
