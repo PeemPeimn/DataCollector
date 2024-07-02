@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
 [Table("reddit_data")]
-public record RedditData
+public class RedditData
 {
     [Column("id")]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

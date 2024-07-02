@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 [Table("reddit_posts")]
-public record RedditPost
+public class RedditPost
 {
     [Column("id")]
     public required string Id { get; set; }

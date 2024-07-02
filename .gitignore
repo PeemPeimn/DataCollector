@@ -373,6 +373,7 @@ Database/volumes
 
 # App settings
 appsettings.json
+appsettings.test.json
 
 # Coverage reports
 coveragereport
