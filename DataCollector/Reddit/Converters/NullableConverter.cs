@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-class NullableConverter<T> : JsonConverter<T?> where T : class
+public class NullableConverter<T> : JsonConverter<T?> where T : class
 {
     static readonly byte[] Empty = Array.Empty<byte>();
 
