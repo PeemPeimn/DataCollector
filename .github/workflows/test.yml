@@ -1,0 +1,23 @@
+name: "Run tests"
+
+on:
+  workflow_call:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract secret files
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        run: |
+          gpg --quiet --batch --yes --decrypt --passphrase=$GPG_PASSPHRASE \
+            --output ./Database/.env.zip ./Database/.env.zip.gpg
+          unzip ./Database/.env.zip -d ./Database
+          gpg --quiet --batch --yes --decrypt --passphrase=$GPG_PASSPHRASE \
+            --output ./DataCollector/Reddit/appsettings.test.json ./DataCollector/Reddit/appsettings.test.json.gpg
+
+      - name: Run tests
+        run: docker compose run test

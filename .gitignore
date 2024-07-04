@@ -377,3 +377,12 @@ appsettings.test.json
 
 # Coverage reports
 coveragereport
+
+# zip files
+*.zip
+
+# key files
+*.key
+
+# act files
+.act*

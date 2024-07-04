@@ -1,0 +1,14 @@
+name: "Push on branch"
+on:
+  push:
+    branches: "*"
+
+jobs:
+  check-commit-message:
+    uses: ./.github/workflows/check-commit-message.yml
+    with:
+      commit-message: ${{ github.event.head_commit.message }}
+  test:
+    needs: check-commit-message
+    uses: ./.github/workflows/test.yml
+    secrets: inherit

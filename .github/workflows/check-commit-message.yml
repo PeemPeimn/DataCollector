@@ -1,0 +1,18 @@
+name: "Conventional commit message check"
+
+on:
+  workflow_call:
+    inputs:
+      commit-message:
+        required: true
+        type: string
+
+jobs:
+  check-commit-message:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - run: python .github/workflows/check_commit_message.py "${{ inputs.commit-message }}"

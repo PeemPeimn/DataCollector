@@ -16,10 +16,10 @@ public struct SFTTrainerData
         {
             if (role == User)
             {
-                return Roles.Assistant;
+                return Assistant;
             }
 
-            return Roles.User;
+            return User;
         }
     }
 
