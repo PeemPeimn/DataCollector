@@ -1,0 +1,45 @@
+services:
+  postgres:
+    container_name: data_collector_postgres
+    image: postgres:12.19-bullseye
+    env_file:
+      - ./Database/.env/postgres.env
+    volumes:
+      - ./Database/volumes/postgres:/var/lib/postgresql/data
+      - ./Database/SqlScripts:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+
+  pgadmin:
+    container_name: data_collector_pgadmin
+    image: dpage/pgadmin4:latest
+    env_file:
+      - ./Database/.env/pgadmin.env
+    volumes:
+      - ./Database/volumes/pgadmin:/var/lib/pgadmin
+    ports:
+      - "9999:80"
+    networks:
+      - postgres
+    depends_on:
+      - postgres
+
+  test:
+    container_name: data_collector_test
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    working_dir: /tests/Tests/Reddit.Tests
+    volumes:
+      - .:/tests:r
+    depends_on:
+      - postgres
+    networks:
+      - postgres
+    command: bash -c "
+      dotnet test .
+      "
+
+networks:
+  postgres:
+    driver: bridge
