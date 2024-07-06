@@ -1,29 +1,38 @@
-version: "2.28.1"
-
 services:
-  postgres-test:
+  postgrestest:
     container_name: data-collector-postgres-test
     image: postgres:12.19-bullseye
     env_file:
       - ./Database/.env/postgres.env
     volumes:
       - ./Database/SqlScripts:/docker-entrypoint-initdb.d
+      - ./Database/postgresql.conf:/etc/postgresql/postgresql.conf
     ports:
       - "5433:5432"
     networks:
-      - postgres-test-net
+      postgres-test-net:
+        ipv4_address: 178.25.0.2
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d data"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
 
   test:
     container_name: data-collector-test
     image: mcr.microsoft.com/dotnet/sdk:8.0
     volumes:
       - .:/src:ro
-      - /src/.vs
+      - /src/.vs/
       - ./TestResults:/test/TestResults
     depends_on:
-      - postgres-test
+      postgrestest:
+        condition: service_healthy
+        restart: true
     networks:
-      - postgres-test-net
+      postgres-test-net:
+        ipv4_address: 178.25.0.3
     command: bash -c "
       cp -r /src /test &&
       cd /test/src &&
@@ -34,3 +43,6 @@ services:
 networks:
   postgres-test-net:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 178.25.0.0/24

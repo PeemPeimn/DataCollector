@@ -16,4 +16,6 @@ jobs:
           bash decrypt.sh $GPG_PASSPHRASE
 
       - name: Run tests
-        run: docker compose -f docker-compose.test.yml run test
+        run: |
+          mkdir .vs
+          docker compose -f docker-compose.test.yml run test
