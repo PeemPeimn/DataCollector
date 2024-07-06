@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Reddit.Formatters;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 
 namespace Reddit;
 
+[ExcludeFromCodeCoverage]
 class Program
 {
     static async Task Main(string[] args)
