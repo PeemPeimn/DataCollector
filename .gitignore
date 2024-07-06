@@ -386,3 +386,6 @@ coveragereport
 
 # act files
 .act*
+
+# sonarqube
+.sonarqube
