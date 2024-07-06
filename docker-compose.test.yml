@@ -1,0 +1,36 @@
+version: "2.28.1"
+
+services:
+  postgres-test:
+    container_name: data-collector-postgres-test
+    image: postgres:12.19-bullseye
+    env_file:
+      - ./Database/.env/postgres.env
+    volumes:
+      - ./Database/SqlScripts:/docker-entrypoint-initdb.d
+    ports:
+      - "5433:5432"
+    networks:
+      - postgres-test-net
+
+  test:
+    container_name: data-collector-test
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    volumes:
+      - .:/src:ro
+      - /src/.vs
+      - ./TestResults:/test/TestResults
+    depends_on:
+      - postgres-test
+    networks:
+      - postgres-test-net
+    command: bash -c "
+      cp -r /src /test &&
+      cd /test/src &&
+      dotnet build &&
+      dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=/test/TestResults/coverage
+      "
+
+networks:
+  postgres-test-net:
+    driver: bridge

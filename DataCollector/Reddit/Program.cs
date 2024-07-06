@@ -10,7 +10,7 @@ class Program
     {
         IConfigurationRoot configs = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
         RedditDbContext dbContext = new RedditDbContext(configs["PostgresConnectionString"]);
-        RedditRepository repository = new RedditRepository(dbContext);
+        RedditRepository repository = new RedditRepository(dbContext, TimeProvider.System);
 
         Console.Write("Enter the Reddit post's URL: ");
         string URL = Console.ReadLine()!;

@@ -20,15 +20,17 @@ public class RedditDbContext : DbContext
     }
 }
 
-public class RedditRepository(RedditDbContext dbContext)
+public class RedditRepository(RedditDbContext dbContext, TimeProvider timeProvider)
 {
     private RedditDbContext _dbContext = dbContext;
+
+    private TimeProvider _timeProvider = timeProvider;
 
     public void InsertData(string post, List<SFTTrainerData> dataList)
     {
         var transaction = _dbContext.Database.BeginTransaction();
         var postId = dataList[0].PostId!;
-        DateTime now = DateTime.UtcNow;
+        DateTimeOffset now = _timeProvider.GetUtcNow();
         var newPost = new RedditPost { Id = postId, CreatedAt = now, Post = post };
 
         _dbContext.redditPosts.Where(p => p.Id == postId).ExecuteDelete();

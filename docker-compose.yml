@@ -26,20 +26,6 @@ services:
     depends_on:
       - postgres
 
-  test:
-    container_name: data_collector_test
-    image: mcr.microsoft.com/dotnet/sdk:8.0
-    working_dir: /tests/Tests/Reddit.Tests
-    volumes:
-      - .:/tests:r
-    depends_on:
-      - postgres
-    networks:
-      - postgres
-    command: bash -c "
-      dotnet test .
-      "
-
 networks:
   postgres:
     driver: bridge
