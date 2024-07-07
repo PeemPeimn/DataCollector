@@ -2,10 +2,12 @@ using Microsoft.EntityFrameworkCore;
 using Reddit.Models;
 using System.Text.Json;
 
+namespace Reddit.Repositories;
+
 public class RedditDbContext : DbContext
 {
 
-    private string? _connectionString;
+    private readonly string? _connectionString;
 
     public DbSet<RedditPost> redditPosts { get; set; }
     public DbSet<RedditData> redditData { get; set; }
@@ -23,9 +25,9 @@ public class RedditDbContext : DbContext
 
 public class RedditRepository(RedditDbContext dbContext, TimeProvider timeProvider)
 {
-    private RedditDbContext _dbContext = dbContext;
+    private readonly RedditDbContext _dbContext = dbContext;
 
-    private TimeProvider _timeProvider = timeProvider;
+    private readonly TimeProvider _timeProvider = timeProvider;
 
     public void InsertData(string post, List<SFTTrainerData> dataList)
     {

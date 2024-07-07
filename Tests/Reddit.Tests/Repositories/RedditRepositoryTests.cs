@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Moq;
 using Reddit.Models;
+using Reddit.Repositories;
 using System.Text.Json;
 
 namespace Reddit.Tests.Repositories.Tests

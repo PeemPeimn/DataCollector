@@ -37,7 +37,8 @@ services:
       cp -r /src /test &&
       cd /test/src &&
       dotnet build &&
-      dotnet test -v normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=/test/TestResults/coverage
+      dotnet test -v normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=/test/TestResults/coverage &&
+      sed -i 's%\/test\/src\/%%g' /test/TestResults/coverage.opencover.xml
       "
 
 networks:
