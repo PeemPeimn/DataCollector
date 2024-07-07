@@ -22,7 +22,6 @@ jobs:
           docker compose -f docker-compose.test.yml run test
           mkdir tmp
           cp ./TestResults/coverage.opencover.xml tmp/coverage.opencover.xml
-          sed -i 's/\/test\/src\///g' tmp/coverage.opencover.xml
 
       - uses: actions/upload-artifact@v2
         with:
