@@ -1,4 +1,5 @@
 // Kind: "t1"
+using Reddit.Converters;
 using System.Text.Json.Serialization;
 
 public class Comment
