@@ -10,7 +10,7 @@ namespace Reddit.Tests.Repositories.Tests
     public class RedditRepositoryTest
     {
 
-        public RedditDbContext CreateContext(string dbName)
+        public static RedditDbContext CreateContext(string dbName)
         {
             dbName = dbName.ToLower();
             IConfigurationRoot configs = new ConfigurationBuilder()
