@@ -8,7 +8,7 @@ using System.Text.Json;
 namespace Reddit;
 
 [ExcludeFromCodeCoverage]
-class Program
+static class Program
 {
     static async Task Main(string[] args)
     {
