@@ -5,11 +5,9 @@ namespace Reddit.Converters;
 
 public class NullableConverter<T> : JsonConverter<T?> where T : class
 {
-    static readonly byte[] Empty = Array.Empty<byte>();
-
     public override T? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        if (reader.TokenType == JsonTokenType.String && reader.ValueTextEquals(Empty))
+        if (reader.TokenType == JsonTokenType.String && reader.ValueTextEquals(Array.Empty<byte>()))
         {
             return null;
         }
