@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Reddit.Formatters;
+using Reddit.Models;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 

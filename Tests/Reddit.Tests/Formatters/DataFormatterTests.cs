@@ -1,4 +1,5 @@
 using Reddit.Formatters;
+using Reddit.Models;
 using System.Text.Json;
 
 namespace Reddit.Tests.DataFormatterTests

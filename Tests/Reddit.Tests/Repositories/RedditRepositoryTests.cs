@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Moq;
+using Reddit.Models;
 using System.Text.Json;
 
 namespace Reddit.Tests.Repositories.Tests

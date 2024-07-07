@@ -1,6 +1,8 @@
 // Kind: "t3"
 using System.Text.Json.Serialization;
 
+namespace Reddit.Models;
+
 public class Post
 {
     [JsonPropertyName("id")]

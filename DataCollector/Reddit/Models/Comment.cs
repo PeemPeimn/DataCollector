@@ -2,6 +2,8 @@
 using Reddit.Converters;
 using System.Text.Json.Serialization;
 
+namespace Reddit.Models;
+
 public class Comment
 {
 

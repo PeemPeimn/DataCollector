@@ -1,5 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 
+namespace Reddit.Models;
+
 public struct SFTTrainerData
 {
     public SFTTrainerData()

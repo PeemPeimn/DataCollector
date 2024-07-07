@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Reddit.Models;
 using System.Text.Json;
 
 public class RedditDbContext : DbContext

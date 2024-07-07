@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using Reddit.Models;
+using System.Text.Json;
 
 namespace Reddit.Formatters
 {

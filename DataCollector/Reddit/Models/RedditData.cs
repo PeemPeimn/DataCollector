@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
+namespace Reddit.Models;
+
 [Table("reddit_data")]
 public class RedditData
 {

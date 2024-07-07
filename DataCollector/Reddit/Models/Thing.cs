@@ -1,6 +1,8 @@
 // Base class for Reddit's data
 using System.Text.Json.Serialization;
 
+namespace Reddit.Models;
+
 public class Thing
 {
     [JsonPropertyName("kind")]
