@@ -17,7 +17,6 @@ namespace Reddit.Tests.Repositories.Tests
                 .SetBasePath(AppContext.BaseDirectory)
                 .AddJsonFile("appsettings.test.json").Build();
             string connectionString = configs["PostgresConnectionString"]!;
-
             RedditDbContext dbContext = new RedditDbContext(connectionString);
 
             string createTestDb = $"DROP DATABASE IF EXISTS {dbName}; CREATE DATABASE {dbName} WITH TEMPLATE data_template";
@@ -41,11 +40,12 @@ namespace Reddit.Tests.Repositories.Tests
 
             string post = """{"post": "This is a post"}""";
             string postId = "post_id";
-            List<SFTTrainerData> dataList = new List<SFTTrainerData> {
-                new SFTTrainerData {
-                    PostId = postId,
-                    Messages = new List<SFTTrainerData.Message> {
-                        new SFTTrainerData.Message {
+            var data = new SftTrainerData
+            {
+                PostId = postId,
+                ConversationList = new List<List<SftTrainerData.Message>> {
+                    new List<SftTrainerData.Message> {
+                        new SftTrainerData.Message {
                             Role = "user_1",
                             Content = "hello"
                         }
@@ -64,10 +64,10 @@ namespace Reddit.Tests.Repositories.Tests
                 Id = 1,
                 PostId = postId,
                 CreatedAt = mockNow,
-                Messages = JsonSerializer.Serialize(dataList[0].Messages)
+                Conversation = JsonSerializer.Serialize(data.ConversationList[0])
             };
 
-            repository.InsertData(post, dataList);
+            repository.InsertData(post, data);
 
             var savedPost = dbContext.redditPosts.Where(p => p.Id == postId).FirstOrDefault()!;
 
@@ -95,11 +95,12 @@ namespace Reddit.Tests.Repositories.Tests
 
             string post = """{"post": "This is a post"}""";
             string postId = "test_post_id";
-            List<SFTTrainerData> dataList = new List<SFTTrainerData> {
-                new SFTTrainerData {
-                    PostId = postId,
-                    Messages = new List<SFTTrainerData.Message> {
-                        new SFTTrainerData.Message {
+            var data = new SftTrainerData
+            {
+                PostId = postId,
+                ConversationList = new List<List<SftTrainerData.Message>> {
+                    new List<SftTrainerData.Message> {
+                        new SftTrainerData.Message {
                             Role = "user_1",
                             Content = "hello"
                         }
@@ -118,10 +119,10 @@ namespace Reddit.Tests.Repositories.Tests
                 Id = 4,
                 PostId = postId,
                 CreatedAt = mockNow,
-                Messages = JsonSerializer.Serialize(dataList[0].Messages)
+                Conversation = JsonSerializer.Serialize(data.ConversationList[0])
             };
 
-            repository.InsertData(post, dataList);
+            repository.InsertData(post, data);
 
             var savedPost = dbContext.redditPosts.Where(p => p.Id == postId).FirstOrDefault()!;
 

@@ -15,6 +15,6 @@ public class RedditData
     [Column("created_at")]
     public required DateTimeOffset CreatedAt { get; set; }
 
-    [Column("messages", TypeName = "jsonb")]
-    public required string Messages { get; set; }
+    [Column("conversation", TypeName = "jsonb")]
+    public required string Conversation { get; set; }
 }

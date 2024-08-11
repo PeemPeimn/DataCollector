@@ -1,7 +1,7 @@
 services:
   postgres:
     container_name: data_collector_postgres
-    image: postgres:12.19-bullseye
+    image: postgres:16
     env_file:
       - ./Database/.env/postgres.env
     volumes:

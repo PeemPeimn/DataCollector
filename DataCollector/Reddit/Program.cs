@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Reddit.Formatters;
+using Reddit.Converters;
 using Reddit.Models;
 using Reddit.Repositories;
 using System.Diagnostics.CodeAnalysis;
@@ -26,11 +26,12 @@ static class Program
         string postJson = await response.Content.ReadAsStringAsync();
 
         List<Thing> listOfThings = JsonSerializer.Deserialize<List<Thing>>(postJson)!;
+        ObjectConverter.Convert(listOfThings[0]);
+        ObjectConverter.Convert(listOfThings[1]);
 
-        List<SFTTrainerData> dataList;
-        DataFormatter.Format(listOfThings, out dataList);
+        var data = Formatters.SftTrainerDataFormatter.Format(listOfThings);
 
-        repository.InsertData(postJson, dataList);
+        repository.InsertData(postJson, data);
     }
 
 }

@@ -29,10 +29,10 @@ public class RedditRepository(RedditDbContext dbContext, TimeProvider timeProvid
 
     private readonly TimeProvider _timeProvider = timeProvider;
 
-    public void InsertData(string post, List<SFTTrainerData> dataList)
+    public void InsertData(string post, SftTrainerData data)
     {
         var transaction = _dbContext.Database.BeginTransaction();
-        var postId = dataList[0].PostId!;
+        var postId = data.PostId!;
         DateTimeOffset now = _timeProvider.GetUtcNow();
         var newPost = new RedditPost { Id = postId, CreatedAt = now, Post = post };
 
@@ -40,13 +40,13 @@ public class RedditRepository(RedditDbContext dbContext, TimeProvider timeProvid
         _dbContext.redditPosts.Add(newPost);
         _dbContext.SaveChanges();
 
-        foreach (var data in dataList)
+        foreach (var conversation in data.ConversationList)
         {
             var newData = new RedditData
             {
                 PostId = postId,
                 CreatedAt = now,
-                Messages = JsonSerializer.Serialize(data.Messages)
+                Conversation = JsonSerializer.Serialize(conversation)
             };
             _dbContext.redditData.Add(newData);
         }

@@ -1,7 +1,7 @@
 services:
-  postgrestest:
+  postgres-test:
     container_name: data-collector-postgres-test
-    image: postgres:12.19-bullseye
+    image: postgres:16
     env_file:
       - ./Database/.env/postgres.env
     volumes:
@@ -27,7 +27,7 @@ services:
       - /src/.vs/
       - ./TestResults:/test/TestResults
     depends_on:
-      postgrestest:
+      postgres-test:
         condition: service_healthy
         restart: true
     networks:

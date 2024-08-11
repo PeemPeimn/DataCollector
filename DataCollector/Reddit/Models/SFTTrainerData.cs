@@ -2,12 +2,11 @@
 
 namespace Reddit.Models;
 
-public struct SFTTrainerData
+public class SftTrainerData
 {
-    public SFTTrainerData()
-    {
-        Messages = new List<Message>();
-    }
+    public string? PostId { get; set; }
+    public List<List<Message>> ConversationList { get; set; } = new List<List<Message>>();
+    public List<Message> Conversation { get; set; } = new List<Message>();
 
     public static class Roles
     {
@@ -34,8 +33,4 @@ public struct SFTTrainerData
         public required string Content { get; set; }
 
     }
-
-    public string? PostId { get; set; }
-
-    public List<Message> Messages { get; set; } = new List<Message>();
 }
